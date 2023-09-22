@@ -1,9 +1,4 @@
-//import { count_token, get_token, get_id } from "../db"
-
-//import pg from 'pg'
-
 const pg = require('pg');
-
 
 const pool = new pg.Pool({
   max: 10, // default
@@ -99,14 +94,14 @@ async function get_token(values) {
 
 async function count_token(values) {
   const sql = `
-  select count(*) from tokens where cid = $1 AND uid = $2 AND ip = $3;` // 
+  select count(*) from tokens where cid = $1 AND uid = $2 AND ip = $3;`
   const { rows } = await query(sql, values)
   return rows[0].count
 }
 
 async function get_id(values) {
   const sql = `
-  select id from tokens where cid = $1 AND uid = $2 AND ip = $3` // 
+  select id from tokens where cid = $1 AND uid = $2 AND ip = $3`
   const { rows } = await query(sql, values)
   return rows[0].id
 }

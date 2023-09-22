@@ -4,6 +4,8 @@
  * Module dependencies.
  */
 
+// DEBUG=tokenizer:* npm start
+
 //require('dotenv').config();
 
 var app = require('../app');
