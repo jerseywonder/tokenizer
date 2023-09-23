@@ -44,7 +44,7 @@ module.exports = async function token(req, res, next) {
 
             let count = await count_token([cid, browserFingerprint, ip])
 
-            if (count == 0 || profile.app.isIos) {
+            if (count == 0) {
 
                 token = await get_token([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint])
 
@@ -52,9 +52,11 @@ module.exports = async function token(req, res, next) {
 
             } else {
 
-                token = await get_id([cid, browserFingerprint, ip])
+                let current = await get_id([cid, browserFingerprint, ip])
 
-                console.log('Use existing token')
+                token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                console.log('Insert into the duplicates table')
 
             }
 
@@ -88,6 +90,13 @@ const query = async (sql, params = []) => pool.query(sql, params)
 async function get_token(values) {
   const sql = `
   INSERT INTO tokens(cid, gkey, uid, ip, ref, profile, serverFingerprint) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING tokens.id;`
+  const { rows } = await query(sql, values)
+  return rows[0].id
+}
+
+async function existential(values) {
+  const sql = `
+  INSERT INTO duplicates(cid, gkey, uid, ip, ref, profile, serverFingerprint, token) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING duplicates.id;`
   const { rows } = await query(sql, values)
   return rows[0].id
 }
