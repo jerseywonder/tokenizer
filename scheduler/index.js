@@ -1,6 +1,6 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-import { S3Client, AbortMultipartUploadCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+//import { createRequire } from "module";
+//const require = createRequire(import.meta.url);
+const { S3Client, AbortMultipartUploadCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 const pg = require('pg');
 
