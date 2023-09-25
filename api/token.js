@@ -10,7 +10,7 @@ const pool = new pg.Pool({
 
 const active = process.env.POLLS
 
-var ipblock = process.env.ipblock
+var ipblock = ["110.32.202.166","124.47.163.185"] //process.env.ipblock
 
 module.exports = async function token(req, res, next) {
     
@@ -55,6 +55,12 @@ module.exports = async function token(req, res, next) {
                 let current = await get_id([cid, browserFingerprint, ip])
 
                 token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                if ( contains(ipblock, ip) && !data.profile.app.isIos) {
+
+                    token = "c3P0r2D2ca062da0e3a9892c500e05cf"
+
+                }
 
                 console.log('Insert into the duplicates table')
 
