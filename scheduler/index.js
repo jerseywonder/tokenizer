@@ -41,10 +41,20 @@ async function feedburner(fid) {
     return item;
   });
 
+  let excludes = poll[0].excludeItems.split(",")
+
+  excludes = excludes.map(d => +d)
+
+  let round = results.filter((result) => {
+    return excludes.indexOf(+result.id) === -1;
+  });
+
+  console.log(`Round: ${round.length} birds`)
+
   generateAndUploadFeed(
     pollOutline[0],
     poll[0],
-    results,
+    round,
   )
 
 }
@@ -93,7 +103,6 @@ const generateAndUploadFeed = async (
   data,
 ) => {
   const API_ROOT =  "https://pollarama-be-v2.herokuapp.com"
-
 
   const key = poll.key;
 
