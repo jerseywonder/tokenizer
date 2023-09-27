@@ -54,6 +54,24 @@ module.exports = async function token(req, res, next) {
 
                 let current = await get_id([cid, browserFingerprint, ip])
 
+                if (data.profile.app.isIos || data.profile.isMobile) {
+
+                    profile.tagged = "mobile"
+
+                    token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                } else {
+
+                    token = current
+
+                    profile.tagged = "Suspicious"
+
+                    let bluff = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                }
+
+                /*
+
                 token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
 
                 if ( contains(ipblock, ip) && !data.profile.app.isIos) {
@@ -61,6 +79,8 @@ module.exports = async function token(req, res, next) {
                     token = "c3P0r2D2ca062da0e3a9892c500e05cf"
 
                 }
+
+                */
 
                 console.log('Insert into the duplicates table')
 
