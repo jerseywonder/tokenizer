@@ -54,11 +54,23 @@ module.exports = async function token(req, res, next) {
 
                 let current = await get_id([cid, browserFingerprint, ip])
 
-                if (data.profile.app.isIos || data.profile.isMobile) {
+                if (!contains(ipblock, ip)) {
 
-                    profile.tagged = "mobile"
+                    if (data.profile.app.isIos || data.profile.isMobile) {
 
-                    token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+                        profile.tagged = "mobile"
+
+                        token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                    } else {
+
+                        token = current
+
+                        profile.tagged = "Suspicious"
+
+                        let bluff = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                    }
 
                 } else {
 
@@ -67,8 +79,10 @@ module.exports = async function token(req, res, next) {
                     profile.tagged = "Suspicious"
 
                     let bluff = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
-
+                    
                 }
+
+
 
                 /*
 
