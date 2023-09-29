@@ -76,10 +76,10 @@ module.exports = async function token(req, res, next) {
 
                     token = current
 
-                    profile.tagged = "Suspicious"
+                    profile.tagged = "Blocked"
 
                     let bluff = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
-                    
+
                 }
 
 
