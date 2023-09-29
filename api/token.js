@@ -10,7 +10,7 @@ const pool = new pg.Pool({
 
 const active = process.env.POLLS
 
-var ipblock = ["110.32.202.166","124.47.163.185","121.200.35.2"] //process.env.ipblock // "58.161.99.94","1.152.110.80"
+var ipblock = ["110.32.202.166","124.47.163.185","121.200.35.2", "58.161.99.94","101.188.34.66"] //process.env.ipblock // "58.161.99.94","1.152.110.80"
 
 module.exports = async function token(req, res, next) {
     
