@@ -42,6 +42,8 @@ module.exports = async function token(req, res, next) {
 
             //ipo = ipo.toString();
 
+            profile.server = (req.fingerprint.components) ? req.fingerprint.components : [] ;
+
             let count = await count_token([cid, browserFingerprint, ip])
 
             if (count == 0) {
