@@ -22,7 +22,7 @@ module.exports = async function token(req, res, next) {
 
         if (req.fingerprint && data.uid && data.key && data.cid) {
 
-            const browserFingerprint = data.uid; // Browser fingerprint
+            const browserFingerprint = broncage(data.uid); // Browser fingerprint
 
             const key = data.key; // Googledoc key
 
@@ -30,17 +30,25 @@ module.exports = async function token(req, res, next) {
 
             const profile = data.profile  // Profile info
             
-            const serverFingerprint = req.fingerprint.hash; // Server side fingerprint
+            const serverFingerprint = broncage(req.fingerprint.hash); // Server side fingerprint
 
-            const referer = req.headers.referer; // ref.indexOf("https://www.theguardian.com/" does not work in the apps
+            const referer = broncage(req.headers.referer); // ref.indexOf("https://www.theguardian.com/" does not work in the apps
         
-            const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // ip address
+            let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // ip address
 
             //const ipToInt32 = (ip) => ip.split`.`.reduce((r, e) => r * 256 + +e);
 
             //let ipo = ipToInt32(ip)
 
             //ipo = ipo.toString();
+            /*
+              gkey varchar(255) COLLATE "pg_catalog"."default",
+              uid varchar(255) COLLATE "pg_catalog"."default",
+              ip varchar(255) COLLATE "pg_catalog"."default",
+              ref varchar(255) COLLATE "pg_catalog"."default",
+              serverFingerprint varchar(255) COLLATE "pg_catalog"."default",
+              profile jsonb DEFAULT '{}'::jsonb,
+            */
 
             profile.server = (req.fingerprint.components) ? req.fingerprint.components : [] ;
 
@@ -113,6 +121,20 @@ module.exports = async function token(req, res, next) {
     } finally {
 
         res.json({ status: 69, token : token })
+
+    }
+
+}
+
+function broncage(str) {
+
+    if (typeof str === 'string' || str instanceof String) {
+
+        return (str.length > 255) ? str.substr(str, 254) : str
+
+    } else {
+
+        return String(str)
 
     }
 
