@@ -63,8 +63,8 @@ const query = async (sql, params = []) => pool.query(sql, params)
 
 async function count_votes(id) {
   const sql = `
-  select * from vote where "pollId" = $1;`
-  const { rows } = await query(sql, [id])
+  select * from vote where "pollId" = $1 AND "voteType" = $2;`
+  const { rows } = await query(sql, [id, 'VALID'])
   return rows
 }
 
