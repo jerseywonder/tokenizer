@@ -20,7 +20,7 @@ module.exports = async function token(req, res, next) {
 
     try {
 
-        if (req.fingerprint && data.uid && data.key && data.cid && data.profile) {
+        if (req.fingerprint && data.uid && data.key && data.cid) { //  && data.profile
 
             const browserFingerprint = broncage(data.uid); // Browser fingerprint
 
@@ -28,7 +28,9 @@ module.exports = async function token(req, res, next) {
 
             const cid = data.cid; // Competition ID
 
-            const profile = data.profile  // Profile info
+            let dummy = {"app": {"isIos": false, "isiPad": false, "isiPhone": false, "isAndroid": false}, "isApp": false, "isMobile": false, "platform": "suspect", "userAgent": "suspect", "localstore": false, "screenWidth": 0, "screenHeight": 0}
+
+            const profile = (data.profile) ?  data.profile : dummy // Profile info
             
             const serverFingerprint = broncage(req.fingerprint.hash); // Server side fingerprint
 
