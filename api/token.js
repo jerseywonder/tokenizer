@@ -20,7 +20,7 @@ module.exports = async function token(req, res, next) {
 
     try {
 
-        if (req.fingerprint && data.uid && data.key && data.cid) {
+        if (req.fingerprint && data.uid && data.key && data.cid && data.profile) {
 
             const browserFingerprint = broncage(data.uid); // Browser fingerprint
 
