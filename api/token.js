@@ -28,7 +28,15 @@ module.exports = async function token(req, res, next) {
 
             const cid = data.cid; // Competition ID
 
-            const profile = data.profile
+            const suspect = {"app": {"isIos": false, "isiPad": false, "isiPhone": false, "isAndroid": false}, "isApp": false, "isMobile": false, "platform": "suspect", "userAgent": "suspect", "localstore": false, "screenWidth": 0, "screenHeight": 0}
+
+            const profile = isJson(data.profile) ? data.profile : suspect
+
+            if (!isJson(data.profile)) {
+
+                profile.status = String(data.profile)
+
+            }
             
             const serverFingerprint = broncage(req.fingerprint.hash); // Server side fingerprint
 
@@ -124,6 +132,15 @@ module.exports = async function token(req, res, next) {
 
     }
 
+}
+
+function isJson(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
 }
 
 function broncage(str) {
