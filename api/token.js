@@ -60,63 +60,73 @@ module.exports = async function token(req, res, next) {
 
             profile.server = (req.fingerprint.components) ? req.fingerprint.components : [] ;
 
-            let count = await count_token([cid, browserFingerprint, ip])
+            try {
 
-            if (count == 0) {
+                let count = await count_token([cid, browserFingerprint, ip])
 
-                token = await get_token([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint])
+                if (count == 0) {
 
-                console.log('Generate new token')
+                    token = await get_token([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint])
 
-            } else {
+                    console.log('Generate new token')
 
-                let current = await get_id([cid, browserFingerprint, ip])
+                } else {
 
-                if (!contains(ipblock, ip)) {
+                    let current = await get_id([cid, browserFingerprint, ip])
 
-                    if (data.profile.app.isIos || data.profile.isMobile) {
+                    if (!contains(ipblock, ip)) {
 
-                        profile.tagged = "mobile"
+                        if (data.profile.app.isIos || data.profile.isMobile) {
 
-                        token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+                            profile.tagged = "mobile"
+
+                            token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                        } else {
+
+                            token = current
+
+                            profile.tagged = "Suspicious"
+
+                            let bluff = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+
+                        }
 
                     } else {
 
                         token = current
 
-                        profile.tagged = "Suspicious"
+                        profile.tagged = "Blocked"
 
                         let bluff = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
 
                     }
 
-                } else {
-
-                    token = current
-
-                    profile.tagged = "Blocked"
-
-                    let bluff = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
-
-                }
 
 
+                    /*
 
-                /*
+                    token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
 
-                token = await existential([cid, key, browserFingerprint, ip, referer, JSON.stringify(profile), serverFingerprint, current])
+                    if ( contains(ipblock, ip) && !data.profile.app.isIos) {
 
-                if ( contains(ipblock, ip) && !data.profile.app.isIos) {
+                        token = "c3P0r2D2ca062da0e3a9892c500e05cf"
 
-                    token = "c3P0r2D2ca062da0e3a9892c500e05cf"
+                    }
+
+                    */
+
+                    console.log('Insert into the duplicates table')
 
                 }
 
-                */
+            } catch (error) {
+              console.error(error);
+              // Expected output: ReferenceError: nonExistentFunction is not defined
+              // (Note: the exact output may be browser-dependent)
 
-                console.log('Insert into the duplicates table')
-
-            }
+              token = "c3P0r2D2ca062da0e3a9892c500e05cf"
+            }   
 
         }
 
