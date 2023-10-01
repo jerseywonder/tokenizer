@@ -28,9 +28,9 @@ module.exports = async function token(req, res, next) {
 
             const cid = data.cid; // Competition ID
 
-            const suspect = {"app": {"isIos": false, "isiPad": false, "isiPhone": false, "isAndroid": false}, "isApp": false, "isMobile": false, "platform": "suspect", "userAgent": "suspect", "localstore": false, "screenWidth": 0, "screenHeight": 0}
+            //const suspect = {"app": {"isIos": false, "isiPad": false, "isiPhone": false, "isAndroid": false}, "isApp": false, "isMobile": false, "platform": "suspect", "userAgent": "suspect", "localstore": false, "screenWidth": 0, "screenHeight": 0}
 
-            const profile = isJson(data.profile) ? data.profile : suspect
+            const profile = data.profile
 
             if (!isJson(data.profile)) {
 
