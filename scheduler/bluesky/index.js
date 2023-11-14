@@ -1,7 +1,7 @@
 const { BskyAgent, AppBskyFeedPost } = require("@atproto/api");
 //const sharp = require("sharp");
 const cheerio = require("cheerio");
-const Parser = require("rss-parser");
+const { Parser } = require("rss-parser");
 //import Parser from 'rss-parser';
 const parser = new Parser({
   customFields: {
