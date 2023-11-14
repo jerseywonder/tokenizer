@@ -1,9 +1,9 @@
 const { BskyAgent, AppBskyFeedPost } = require("@atproto/api");
 //const sharp = require("sharp");
 const cheerio = require("cheerio");
-const { Parser } = require("rss-parser");
+const { RSSParser } = require("rss-parser");
 //import Parser from 'rss-parser';
-const parser = new Parser({
+const parser = new RSSParser({
   customFields: {
     item: [
       ['media:content', 'media:content', {keepArray: true}],
