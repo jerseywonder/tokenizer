@@ -6,7 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@atproto/api": "^0.6.23",
     "@aws-sdk/client-s3": "^3.418.0",
+    "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
@@ -16,7 +18,8 @@
     "module": "^1.2.5",
     "morgan": "~1.9.1",
     "node-fetch": "^2.7.0",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "rss-parser": "^3.13.0"
   },
   "devDependencies": {
     "dotenv": "^16.3.1"
