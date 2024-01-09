@@ -22,4 +22,12 @@ var token = require('../api/token');
 
 router.post('/token/', token);
 
+
+/* Post the quiz data */
+
+var token = require('../api/quiz');
+
+router.post('/quiz/', token);
+
+
 module.exports = router;
