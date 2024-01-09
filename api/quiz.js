@@ -25,19 +25,13 @@ module.exports = async function quiz(req, res, next) {
 
         if (data.worst) {
 
-
             const worst = data.worst.map(d => {
                 return { a : d.correct, b : JSON.stringify(d.data),  c : d.rmse }
             })
 
             const flattenedArray = worst.map(obj => Object.values(obj)).flat();
 
-            console.log(flattenedArray)
-
             let id = await postresults(flattenedArray)
-
-            console.log(id)
-
 
         }
 
@@ -50,45 +44,5 @@ module.exports = async function quiz(req, res, next) {
         res.json({ status: 69 })
 
     }
-
-    /*
-
-    if (data.risks) {
-
-        var risks = data.risks.map(item => item.value)
-
-        const pg = new Client({
-          connectionString: process.env.POSTGRES,
-          ssl: {
-            rejectUnauthorized: false
-          }
-        });
-
-        pg.connect()
-
-        pg.query("INSERT INTO risk (r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id", risks, (err, resp) => {
-
-            if (err) {
-
-                res.json({status: 500});
-
-                return next()
-
-            }
-
-            res.json({status: 200});
-
-            pg.end()
-        
-        })
-
-    } else {
-
-        res.json({status: 501});
-
-    }
-
-    */
-
 
 }
