@@ -23,7 +23,7 @@ module.exports = async function quiz(req, res, next) {
 
     try {
 
-        if (req.worst) {
+        if (data.worst) {
 
             const worst = data.worst.map(d => {
                 return { a : d.correct, b : JSON.stringify(d.data),  c : d.rmse }
