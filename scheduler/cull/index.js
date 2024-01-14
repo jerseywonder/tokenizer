@@ -22,7 +22,7 @@ async function feedburner(cid) {
 
   let invalidate = []
 
-  const googleKey = '1SSQw2yjRQllIZo-Db0vjxkrk63JG9hVJN3r_1SVJz-U';
+  const googleKey = '1Pxy5ebkWKkpS63L9dlw3o2NpUA0TeJAG2rygBVhXQmA';
 
   const id = cid
 
