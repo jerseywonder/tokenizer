@@ -50,11 +50,11 @@ async function feedburner(cid) {
 
   }
 
+  let missing = []
+
   for await (const vote of votes) {
 
     let obj = {}
-
-    console.log(vote.id)
     
     obj.voteId = +vote.voterId
 
@@ -78,9 +78,11 @@ async function feedburner(cid) {
 
       if (!info) {
 
-        console.log(`Missing info`)
+        //console.log(`Missing info`)
 
-        console.log(obj.bird)
+        //console.log(obj.bird)
+
+        missing.push(obj.bird)
 
         let resp = await invalidateVote(obj.voteId)
 
@@ -207,6 +209,8 @@ async function feedburner(cid) {
     //await timer(2000)
 
   }
+
+  console.log(`Missing links: ${missing.length}`)
 
 
   for await (const sam of special) {
